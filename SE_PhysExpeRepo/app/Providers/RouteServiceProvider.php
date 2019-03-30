@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use Log;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+
+/**
+ * 这一行代码将所有Log信息重定向到标准输出上
+ */
+Log::useFiles('php://stdout', 'info');
 
 class RouteServiceProvider extends ServiceProvider
 {

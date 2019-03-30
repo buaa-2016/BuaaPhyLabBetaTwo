@@ -132,8 +132,7 @@
             </div>
             <div class="row" style="margin-bottom:40px;">
                 <div class="col-md-offset-4 col-md-4">
-                    <input class="btn btn-lg btn-success btn-block " id="btn-Signup" type="button" onclick="signUp()" value="注册！">
-                                        <button type="submit" style="display:none" id="register-post">Register</button>
+                    <input class="btn btn-lg btn-success btn-block " id="btn-Signup" type="submit" onclick="signUp()" value="注册！">
                     <hr/>
                     <p><b>
                       已有账号?

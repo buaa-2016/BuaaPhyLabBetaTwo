@@ -59,6 +59,6 @@
 		//			window.open(this.responseText);
 		//		}
 		//})
-	}
+		//}
 		
 	

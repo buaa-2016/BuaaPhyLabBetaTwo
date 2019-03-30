@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Request;
-use App\Http\Requests;
+#use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Exceptions\App\DatabaseOperatorException;
