@@ -258,25 +258,25 @@ def Handle10711():
     ANGLE_B2 = []
 
     for a1 in angle_a1_vert:
-        tempstr = str(a1-int(a1))
+        tempstr = "%.2f" % (a1-int(a1))
         if '.' in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_A1.append({'angle':int(a1),'minus':tempstr})
 
     for a2 in angle_a2_vert: 
-        tempstr = str(a2-int(a2))
+        tempstr = "%.2f" % (a2-int(a2))
         if "." in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_A2.append({'angle':int(a2),'minus':tempstr})
 
     for b1 in angle_b1_vert:
-        tempstr = str(b1-int(b1))
+        tempstr = "%.2f" % (b1-int(b1))
         if "." in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_B1.append({'angle':int(b1),'minus':tempstr})
 
     for b2 in angle_b2_vert:
-        tempstr = str(b2-int(b2))
+        tempstr = "%.2f" % (b2-int(b2))
         if "." in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_B2.append({'angle':int(b2),'minus':tempstr})
@@ -422,11 +422,7 @@ if __name__ == '__main__':
         finish_file.close()
         #等于１时是错误
         command = "xelatex -interaction=nonstopmode " + filename
-        print("### comands below ##")
-        print(command)
-        print("#######")
-        ret = os.system(command)
-        #ret =  subprocess.call(command)
+        ret =  subprocess.call(command)
         if ret==0:
             print('{"status":"success"}')
         else:
