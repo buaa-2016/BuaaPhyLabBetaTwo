@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Log;
+use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -70,5 +72,28 @@ class AuthController extends Controller
             'avatar_path'    =>  Config::get('phylab.defaultAvatarPath'),
             'birthday'      => '1990-01-01'
         ]);
+
+    }
+
+
+    public function postRegister(Request $request)
+    {
+        Log::info("data:", $request->all());
+        Log::info("validate");
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            Log::info("validate faied");
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        Log::info("started creating...");
+        $user = $this->create($request->all());
+        Log::info("created successfully!");
+        
+        // autologin?
+        // Auth::login($user);
+        // TOFIX: return to main view with flash message
+        return redirect('/login');
     }
 }

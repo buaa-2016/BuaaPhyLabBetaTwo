@@ -13,7 +13,8 @@ final class LogMiddleware
         $response = $next($request);
 
         Log::info('request', [
-            'request' => $request->url(),
+            $request->method(),
+            $request->url(),
         ]);
 
         return $response;
