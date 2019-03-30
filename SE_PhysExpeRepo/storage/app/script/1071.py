@@ -12,13 +12,13 @@ import sys
 import subprocess
 import traceback
 
-#È«¾Ö±äÁ¿£¬·½±ã¼ÇÂ¼Ô­Ê¼Êý¾Ý
-#VertÎªÈýÀâ¾µ¶¥½Ç²âÁ¿Êý×é
+#全局变量，方便记录原始数据
+#Vert为三棱镜顶角测量数组
 angle_a1_vert = []
 angle_a2_vert = []
 angle_b1_vert = []
 angle_b2_vert = []
-#RefractÎªÕÛÉäÂÊ²âÁ¿Êý×é
+#Refract为折射率测量数组
 angle_a1_refract = []
 angle_a2_refract = []
 angle_b1_refract = []
@@ -31,10 +31,10 @@ uA = 0
 
 env = Environment(line_statement_prefix="#", variable_start_string="%%", variable_end_string="%%")
 
-#¿ÆÑ§¼ÆÊý·¨Ïû³ýe
+#科学计数法消除e
 def ToScience(number):
     Tempstr = format(number,'.4g')
-    #Èç¹û·¢ÏÖTempstrÖÐº¬ÓÐeµÄ»°£¬ËµÃ÷ÊÇ¿ÆÑ§¼ÆÊý·¨
+    #如果发现Tempstr中含有e的话，说明是科学计数法
     if 'e' in  Tempstr:
         index_str = Tempstr.split('e')
         return index_str[0]+'{\\times}10^{'+str(int(index_str[1]))+'}'
@@ -42,24 +42,24 @@ def ToScience(number):
         return Tempstr
 
 
-#·Ö¶È×ª½Ç¶È
+#分度转角度
 def Angle(angle):
     angle = int(angle) + (angle-int(angle))*100/60
     return angle
 
-#¶È×ª»¡¶È
+#度转弧度
 def change(x):
     x = x/180*pi
     return x
 
-#½Ç¶ÈµÄÖµµÄ±ä»»
+#角度的值的变换
 def ChangeAngle(angle,n):
     angle = abs(angle)
     if angle > 200 :
         return 360 - angle
     return angle
 
-#¼ÆËãaÀà²»È·¶¨¶È
+#计算a类不确定度
 def Ua(x, aver, k) :
     sumx = 0
     for i in range(k):
@@ -93,21 +93,21 @@ def BitAdapt(x,u_x) :
 
 
 def ReadXmlTop():
-    #´ò¿ªÍ³Ò»µÄÍ·ÎÄ¼þÄ£°æ
+    #打开统一的头文件模版
     latex_head_file = open('/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Head.tex','r')
     latex_head = latex_head_file.read().decode('utf-8', 'ignore')
     latex_tail = "\n\\end{document}"
     latex_body = ""
 
     dom = xml.dom.minidom.parse(sys.argv[1])
-    #ÎÄµµµÄ¸ù½áµã
+    #文档的根结点
     root = dom.documentElement
-    #»ñÈ¡µ½Ã¿¸öÐ¡ÊµÑéµÄ¶ÔÓ¦±êÇ©
+    #获取到每个小实验的对应标签
     sublab_list = root.getElementsByTagName('sublab')
     for sublab in sublab_list:
         sublab_status = sublab.getAttribute("status")
         sublab_id = sublab.getAttribute("id")
-        #Èç¹ûstatusÎªtrue£¬±íÃ÷ÓÃ»§Ñ¡ÔñÁË¸ÃÐ¡ÊµÑé
+        #如果status为true，表明用户选择了该小实验
         if (sublab_status == 'true' )& (sublab_id == '10711'):
             ReadXml10711(sublab)
             latex_body += Handle10711()
@@ -117,18 +117,18 @@ def ReadXmlTop():
     return latex_head+latex_body+latex_tail
 
 
-#sublab_rootÎª×ÓÊµÑéµÄ¸ù½áµã
+#sublab_root为子实验的根结点
 def ReadXml10711(sublab_root):
-    #ÉùÃ÷È«¾Ö±äÁ¿
+    #声明全局变量
     global angle_a1_vert,angle_a2_vert,angle_b1_vert,angle_b2_vert
 
     sublab_table_list = sublab_root.getElementsByTagName("table")
 
-    #trÊÇÖ¸µÚ¼¸ÐÐ£¬ÆäÖÐµÄindexÊôÐÔ´ú±íÁËÆäÐÐÊý
+    #tr是指第几行，其中的index属性代表了其行数
     sublab_table_list = sublab_root.getElementsByTagName("table")
     for table in sublab_table_list:
         table_name = table.getAttribute("name")
-        #trÊÇÖ¸µÚ¼¸ÐÐ£¬ÆäÖÐµÄindexÊôÐÔ´ú±íÁËÆäÐÐÊý
+        #tr是指第几行，其中的index属性代表了其行数
         table_tr_list = table.getElementsByTagName("tr")
         for tr in table_tr_list:
             tr_index = tr.getAttribute("index")
@@ -141,7 +141,7 @@ def ReadXml10711(sublab_root):
 
 
 def ReadXml10712(sublab_root):
-    #ÉùÃ÷È«¾Ö±äÁ¿
+    #声明全局变量
     global angle_a1_refract,angle_a2_refract,angle_b1_refract,angle_b2_refract,uA,average_A
 
     sublab_table_list = sublab_root.getElementsByTagName("table")
@@ -149,7 +149,7 @@ def ReadXml10712(sublab_root):
         table_name = table.getAttribute("name")
         table_raw  = table.getAttribute("raw")
         table_column = table.getAttribute("column")
-        #trÊÇÖ¸µÚ¼¸ÐÐ£¬ÆäÖÐµÄindexÊôÐÔ´ú±íÁËÆäÐÐÊý
+        #tr是指第几行，其中的index属性代表了其行数
         table_tr_list = table.getElementsByTagName("tr")
         for tr in table_tr_list:
             tr_index = tr.getAttribute("index")         
@@ -162,7 +162,7 @@ def ReadXml10712(sublab_root):
 
 def VertAngle(source,ANGLE_A1,ANGLE_A2,ANGLE_B1,ANGLE_B2):
     global angle_a1_vert,angle_a2_vert,angle_b1_vert,angle_b2_vert,uA,average_A
-    precision = 1.0/60  #¾«¶È£¬´Ë´¦Ä¬ÈÏÎª1'
+    precision = 1.0/60  #精度，此处默认为1'
     sum_A = 0
     k = len(angle_a1_vert)
     angle_A = []
@@ -190,27 +190,27 @@ def VertAngle(source,ANGLE_A1,ANGLE_A2,ANGLE_B1,ANGLE_B2):
         ANGLE_THETA.append({'angle':str(int(theta)),'minus':str(minus)})
     
     average_A = sum_A / k
-    #´óÐ´µÄÊÇ»¡¶È±íÊ¾
+    #大写的是弧度表示
     AVERAGE_A = change(average_A)
     AVERAGE_A = ToScience(AVERAGE_A)
 
     ua_theta = Ua(angle_A, average_A, k)
-    #´óÐ´µÄÊÇ»¡¶È±íÊ¾
+    #大写的是弧度表示
     UA_THETA = change(ua_theta)
     UA_THETA = ToScience(UA_THETA)
 
     ub_theta =precision / sqrt(3)
     u_theta = sqrt(pow(ua_theta,2) + pow(ub_theta,2))
-    #´óÐ´µÄÊÇ»¡¶È±íÊ¾
+    #大写的是弧度表示
     U_THETA = change(u_theta)
     U_THETA = ToScience(U_THETA)
 
     uA = u_theta/2
-    #´óÐ´µÄ»¡¶È±íÊ¾
+    #大写的弧度表示
     U_A = change(uA)
     U_A = ToScience(U_A)
 
-    re_u= uA / average_A #Ïà¶Ô²»È·¶¨¶È
+    re_u= uA / average_A #相对不确定度
     RE_U = change(re_u)
     RE_U = ToScience(RE_U)
 
@@ -236,12 +236,12 @@ def VertAngle(source,ANGLE_A1,ANGLE_A2,ANGLE_B1,ANGLE_B2):
 
     return result
 
-#×ö·¨:ReadXmlÎÄ¼þÀïÓ¦¸ÃÏÈ¶ÔÃ¿¸öÊµÑé½øÐÐ²»Í¬µÄ¶ÁxmlÎÄ¼þµÄ²Ù×÷
+#做法:ReadXml文件里应该先对每个实验进行不同的读xml文件的操作
 def Handle10711():
     global angle_a1_vert,angle_a2_vert,angle_b1_vert,angle_b2_vert
-    #ÔØÈë1071Èý½ÇÐÍ¶¥½Ç²âÁ¿Êý¾Ý´¦ÀíÄ£°å
+    #载入1071三角型顶角测量数据处理模板
     file_object = open("/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Handle10711.tex","r")
-    #½«Ä£°å×÷Îª×Ö·û´®´æ´¢ÔÚtemplateÎÄ¼þÖÐ
+    #将模板作为字符串存储在template文件中
     source = file_object.read().decode('utf-8', 'ignore')
 
     angle_a1_vert = [82.55,120,158.38,43.55,45.57]
@@ -278,7 +278,7 @@ def Handle10711():
             tempstr = tempstr.split('.')[1]
         ANGLE_B2.append({'angle':int(b2),'minus':tempstr})
     
-    #µ÷ÓÃÖ÷Òª´¦Àíº¯Êý
+    #调用主要处理函数
     source = VertAngle(source,ANGLE_A1,ANGLE_A2,ANGLE_B1,ANGLE_B2)
 
     return source
@@ -293,7 +293,7 @@ def Handle10712():
     ANGLE_B2 = []
 
     file_object = open("/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Handle10712.tex","r")
-    #½«Ä£°å×÷Îª×Ö·û´®´æ´¢ÔÚtemplateÎÄ¼þÖÐ
+    #将模板作为字符串存储在template文件中
     source = file_object.read().decode('utf-8', 'ignore')
     
     for a1 in angle_a1_refract:
@@ -326,7 +326,7 @@ def Handle10712():
 
 
 def Refract(source,ANGLE_A1_MIN,ANGLE_A2_MIN,ANGLE_B1_MIN,ANGLE_B2_MIN):
-    precision = 1.0/60  #¾«¶È£¬´Ë´¦Ä¬ÈÏÎª1'
+    precision = 1.0/60  #精度，此处默认为1'
     angle_min = []
     ANGLE_DELTA_MIN = []
     sum_min = 0
@@ -356,11 +356,11 @@ def Refract(source,ANGLE_A1_MIN,ANGLE_A2_MIN,ANGLE_B1_MIN,ANGLE_B2_MIN):
     N1 = ToScience(n1)
 
     ua_min = Ua(angle_min, average_min, k)
-    #»¡¶È
+    #弧度
     ua_min = change(ua_min)
     UA_MIN = ToScience(ua_min)
 
-    #AµÄ²»È·¶¨¶È
+    #A的不确定度
     U_A = change(uA)
     U_A = ToScience(U_A)
 
@@ -377,7 +377,7 @@ def Refract(source,ANGLE_A1_MIN,ANGLE_A2_MIN,ANGLE_B1_MIN,ANGLE_B2_MIN):
     u_n1 = sqrt(pow(temp1,2)+pow(temp2,2))
     U_N1 = ToScience(u_n1)
 
-    re_u = u_n1/n1 #Ïà¶Ô²»È·¶¨¶È
+    re_u = u_n1/n1 #相对不确定度
     RE_U_MIN = ToScience(re_u)
 
     RESULT = BitAdapt(n1,u_n1)

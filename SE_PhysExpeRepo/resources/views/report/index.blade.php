@@ -1922,13 +1922,13 @@
 		</div>
 		<div class="collapse navbar-collapse navbar-responsive-collapse">
 			<ul class="nav navbar-nav navbar-left">
-				<li class="active"><a href="{{URL::route('index')}}"><span class="glyphicon glyphicon-home"></span>&nbsp主页</a></li>
+				<li><a href="{{URL::route('index')}}"><span class="glyphicon glyphicon-home"></span>&nbsp主页</a></li>
 				<li><a href="##">社区</a></li>
-				<li class="dropdown">
+				<li class="active" class="dropdown">
 					<a href="##" data-toggle="dropdown" class="dropdown-toggle">服务<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a data-toggle="modal" data-target="#mymodal-signin"><span class="glyphicon glyphicon-flag"></span>&nbsp实验报告中心</a></li>
+						<li class="active"><a data-toggle="modal" data-target="#mymodal-signin"><span class="glyphicon glyphicon-flag"></span>&nbsp实验报告中心</a></li>
 						<li class="disabled"><a>其他功能</a></li>
 					</ul>
 				</li>
