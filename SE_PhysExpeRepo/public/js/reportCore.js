@@ -192,8 +192,11 @@ var labDoc3dot1415926;
 	
 	
 	// //USE pdfObject v1.2.20111123, xmlInteraction
-	function cp(pdfPath){
+	function cp(pdfPath, test){
 		var myPDF = new PDFObject({ url: pdfPath }).embed("chrom_pdf");
+		if (test) {
+			return;
+		}
 		if(browser()=="FF"){
 			document.getElementById('firefox_pdf').style.display='block';
 		}
@@ -202,7 +205,7 @@ var labDoc3dot1415926;
 		}
 		else {
 			document.getElementById('chrom_pdf').style.display='block';
-			cp('./prepare_pdf/phylab_test.pdf');
+			cp('./prepare_pdf/phylab_test.pdf', true);
 		}
 	}
 	function changePdf(type,pdfName){

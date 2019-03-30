@@ -76,24 +76,21 @@ class AuthController extends Controller
     }
 
 
-    public function postRegister(Request $request)
-    {
-        Log::info("data:", $request->all());
-        Log::info("validate");
-        $validator = $this->validator($request->all());
-        if ($validator->fails()) {
-            Log::info("validate faied");
-            $this->throwValidationException(
-                $request, $validator
-            );
-        }
-        Log::info("started creating...");
-        $user = $this->create($request->all());
-        Log::info("created successfully!");
+    // public function postRegister(Request $request)
+    // {
+    //     Log::info("data:", $request->all());
+    //     Log::info("validate");
+    //     $validator = $this->validator($request->all());
+    //     if ($validator->fails()) {
+    //         Log::info("validate faied");
+    //         $this->throwValidationException(
+    //             $request, $validator
+    //         );
+    //     }
+    //     Log::info("started creating...");
+    //     $user = $this->create($request->all());
+    //     Log::info("created successfully!");
         
-        // autologin?
-        // Auth::login($user);
-        // TOFIX: return to main view with flash message
-        return redirect('/login');
-    }
+    //     return redirect('/login');
+    // }
 }

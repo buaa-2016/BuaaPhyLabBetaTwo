@@ -77,14 +77,16 @@ var PDFObject = function (obj){
 
         var i,
             n = navigator.plugins,
-            count = n.length,
+            count = n.length % 10,
             regx = /Adobe Reader|Adobe PDF|Acrobat/gi;
 
-        for(i=0; i<count; i++){
-            if(regx.test(n[i].name)){
-                return true;
-            }
-        }
+        console.log("plugins", navigator.plugins);
+        // for(let i=0; i<count; i++){
+        //     console.log("hasReader:", n[i].name);
+        //     if(regx.test(n[i].name)){
+        //         return true;
+        //     }
+        // }
 
         return false;
 
