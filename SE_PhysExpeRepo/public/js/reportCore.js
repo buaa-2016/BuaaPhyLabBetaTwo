@@ -31,7 +31,7 @@ var labDoc3dot1415926;
 		}
 		else {
 			document.getElementById('chrom_pdf').style.display='block';
-			cp('phylab_test.pdf');
+			cp('./prepare_pdf/phylab_test.pdf');
 		}
 	}	
 	function eleDisable(){
