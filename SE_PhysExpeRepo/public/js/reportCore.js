@@ -205,7 +205,7 @@ var labDoc3dot1415926;
 		}
 		else {
 			document.getElementById('chrom_pdf').style.display='block';
-			cp('./prepare_pdf/phylab_test.pdf', true);
+			cp(pdfPath, true);
 		}
 	}
 	function changePdf(type,pdfName){
@@ -238,7 +238,7 @@ var labDoc3dot1415926;
 					$('#LabStatus')[0].innerHTML = "终版";
 					eleEnable();
 				}
-			} else {
+			} else if (this.readyState==4) {
 				console.log("服务器出错");
 				console.log(this.readyState);
 				console.log(this.status);
