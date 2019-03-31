@@ -95,7 +95,7 @@ def BitAdapt(x,u_x) :
 
 def ReadXmlTop():
     #打开统一的头文件模版
-    latex_head_file = open('./Head.tex','rb')
+    latex_head_file = open(os.path.dirname(__file__) + '/Head.tex','rb')
     latex_head = latex_head_file.read().decode('utf-8')
     latex_tail = "\n\\end{document}"
     latex_body = ""
@@ -241,7 +241,7 @@ def VertAngle(source,ANGLE_A1,ANGLE_A2,ANGLE_B1,ANGLE_B2):
 def Handle10711():
     global angle_a1_vert,angle_a2_vert,angle_b1_vert,angle_b2_vert
     #载入1071三角型顶角测量数据处理模板
-    file_object = open("./Handle10711.tex","rb")
+    file_object = open(os.path.dirname(__file__) + "/Handle10711.tex","rb")
     #将模板作为字符串存储在template文件中
     source = file_object.read().decode('utf-8')
 
@@ -293,7 +293,7 @@ def Handle10712():
     ANGLE_B1 = []
     ANGLE_B2 = []
 
-    file_object = open("./Handle10712.tex","r")
+    file_object = open(os.path.dirname(__file__) + "/Handle10712.tex","r")
     #将模板作为字符串存储在template文件中
     source = file_object.read().decode('utf-8', 'ignore')
     
@@ -410,7 +410,7 @@ if __name__ == '__main__':
     #print sys.argv[1]+" "+sys.argv[2]
     import sys
     try:
-        filename = "test.tex" if True else sys.argv[2]
+        filename = "test.tex" if False else sys.argv[2]
         finish_str = ReadXmlTop()
         finish_file = codecs.open(filename,"w", "utf-8")
         if sys == 'win32':
@@ -420,7 +420,7 @@ if __name__ == '__main__':
         finish_file.close()
         #等于１时是错误
         command = "xelatex -interaction=nonstopmode " + filename
-        ret =  subprocess.call(command)
+        ret =  subprocess.call(command, shell=True)
         if ret==0:
             print('{"status":"success"}')
         else:
