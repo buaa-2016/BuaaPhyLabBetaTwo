@@ -239,6 +239,9 @@ var labDoc3dot1415926;
 					eleEnable();
 				}
 			} else {
+				console.log("服务器出错");
+				console.log(this.readyState);
+				console.log(this.status);
 				alert("服务器出错");
 			}
 		});
