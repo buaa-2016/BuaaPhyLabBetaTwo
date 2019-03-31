@@ -221,6 +221,7 @@ var labDoc3dot1415926;
 			}
 			$("#pdf_object").attr("data",path+pdfName);
 			$('#pdf_embed').attr("src",path+pdfName);
+			console.log("changePdf(), uri:" + path + pdfName);
 			cp(path+pdfName);
 	}
 	
@@ -237,6 +238,8 @@ var labDoc3dot1415926;
 					$('#LabStatus')[0].innerHTML = "终版";
 					eleEnable();
 				}
+			} else {
+				alert("服务器出错");
 			}
 		});
 	}
