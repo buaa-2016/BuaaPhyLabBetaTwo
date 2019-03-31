@@ -11,6 +11,7 @@ import json
 import sys
 import subprocess
 import traceback
+import codecs
 
 #全局变量，方便记录原始数据
 #Vert为三棱镜顶角测量数组
@@ -94,8 +95,8 @@ def BitAdapt(x,u_x) :
 
 def ReadXmlTop():
     #打开统一的头文件模版
-    latex_head_file = open('/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Head.tex','rb')
-    latex_head = latex_head_file.read().decode('utf-8', 'ignore')
+    latex_head_file = open('./Head.tex','rb')
+    latex_head = latex_head_file.read().decode('utf-8')
     latex_tail = "\n\\end{document}"
     latex_body = ""
 
@@ -240,9 +241,9 @@ def VertAngle(source,ANGLE_A1,ANGLE_A2,ANGLE_B1,ANGLE_B2):
 def Handle10711():
     global angle_a1_vert,angle_a2_vert,angle_b1_vert,angle_b2_vert
     #载入1071三角型顶角测量数据处理模板
-    file_object = open("/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Handle10711.tex","r")
+    file_object = open("./Handle10711.tex","rb")
     #将模板作为字符串存储在template文件中
-    source = file_object.read().decode('utf-8', 'ignore')
+    source = file_object.read().decode('utf-8')
 
     angle_a1_vert = [82.55,120,158.38,43.55,45.57]
     angle_a2_vert = [323,0.11,38.46,284,287]
@@ -255,25 +256,25 @@ def Handle10711():
     ANGLE_B2 = []
 
     for a1 in angle_a1_vert:
-        tempstr = str(a1-int(a1))
+        tempstr = "%.2f" % (a1-int(a1))
         if '.' in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_A1.append({'angle':int(a1),'minus':tempstr})
 
     for a2 in angle_a2_vert: 
-        tempstr = str(a2-int(a2))
+        tempstr = "%.2f" % (a2-int(a2))
         if "." in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_A2.append({'angle':int(a2),'minus':tempstr})
 
     for b1 in angle_b1_vert:
-        tempstr = str(b1-int(b1))
+        tempstr = "%.2f" % (b1-int(b1))
         if "." in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_B1.append({'angle':int(b1),'minus':tempstr})
 
     for b2 in angle_b2_vert:
-        tempstr = str(b2-int(b2))
+        tempstr = "%.2f" % (b2-int(b2))
         if "." in tempstr:
             tempstr = tempstr.split('.')[1]
         ANGLE_B2.append({'angle':int(b2),'minus':tempstr})
@@ -292,7 +293,7 @@ def Handle10712():
     ANGLE_B1 = []
     ANGLE_B2 = []
 
-    file_object = open("/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Handle10712.tex","r")
+    file_object = open("./Handle10712.tex","r")
     #将模板作为字符串存储在template文件中
     source = file_object.read().decode('utf-8', 'ignore')
     
@@ -407,13 +408,19 @@ def Refract(source,ANGLE_A1_MIN,ANGLE_A2_MIN,ANGLE_B1_MIN,ANGLE_B2_MIN):
 
 if __name__ == '__main__':
     #print sys.argv[1]+" "+sys.argv[2]
+    import sys
     try:
+        filename = "test.tex" if True else sys.argv[2]
         finish_str = ReadXmlTop()
-        finish_file = open(sys.argv[2],"w")
-        finish_file.write(finish_str.encode('utf-8', 'ignore'))
+        finish_file = codecs.open(filename,"w", "utf-8")
+        if sys == 'win32':
+            finish_str = finish_file.replace('\n', '\r\n')
+        finish_file.write(finish_str)
+        print(finish_str)
         finish_file.close()
         #等于１时是错误
-        ret =  subprocess.call("xelatex -interaction=nonstopmode "+sys.argv[2],shell=True)
+        command = "xelatex -interaction=nonstopmode " + filename
+        ret =  subprocess.call(command)
         if ret==0:
             print('{"status":"success"}')
         else:

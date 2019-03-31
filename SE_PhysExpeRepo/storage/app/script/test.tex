@@ -1,0 +1,71 @@
+\documentclass[11pt,a4paper,oneside]{article}
+%\usepackage[UTF8,adobefonts]{ctex}
+\usepackage[UTF8]{ctex}
+
+\usepackage{wrapfig}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{ulem}
+
+\usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage{multirow}
+
+\begin{document}
+\section*{五、实验数据处理}
+\subsection*{实验1.三棱镜顶角的测量}
+\subsubsection*{(1)原始数据记录表格}
+
+\begin{center}
+
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+i & 1 & 2 & 3 & 4 & 5 \\ 
+\hline 
+${\alpha}_1$
+&82$^{\circ}$55'&120$^{\circ}$00'&158$^{\circ}$38'&43$^{\circ}$55'&45$^{\circ}$57'
+\\
+\hline 
+${\beta}_1$ 
+&262$^{\circ}$54'&300$^{\circ}$00'&338$^{\circ}$39'&223$^{\circ}$55'&225$^{\circ}$57'
+\\ 
+\hline 
+${\alpha}_2$
+&323$^{\circ}$00'&0$^{\circ}$11'&38$^{\circ}$46'&284$^{\circ}$00'&287$^{\circ}$00'
+\\ 
+\hline 
+${\beta}_2$ 
+&142$^{\circ}$56'&180$^{\circ}$04'&218$^{\circ}$45'&104$^{\circ}$00'&106$^{\circ}$00'
+\\ 
+\hline 
+${\theta}$ 
+&119$^{\circ}$57'&119$^{\circ}$52'&119$^{\circ}$53'&119$^{\circ}$55'&119$^{\circ}$27'
+\\ 
+\hline 
+$A$
+&59$^{\circ}$58'&59$^{\circ}$56'&59$^{\circ}$56'&59$^{\circ}$58'&59$^{\circ}$43'
+\\ 
+\hline 
+\end{tabular}
+\vspace{10pt}
+
+其中$\theta$ = $\displaystyle\frac{1}{2}[({\alpha}_2-{\alpha_1})+({\beta}_2-{\beta}_1)]$，$A=\displaystyle\frac{1}{2}{\theta}$
+
+\end{center}
+
+\subsubsection*{(2)不确定度的计算}
+
+$$\bar{A} =\frac{1}{5}\sum\limits_{i=1}^{5}{A_i}=1.046rad$$
+A类误差：$$u_a({\theta})=\sqrt{\displaystyle\frac{\sum\limits_{i=1}^{5} ({\theta}_i-\bar{\theta})^2}{5{\times}(5-1)}}=0.0007995 $$
+B类误差：$$u_b({\theta})=\displaystyle\frac{\bigtriangleup\text{仪}}{\sqrt{3}}
+= \frac{1'}{\sqrt{3}} = \frac{\pi}{180\times60\times\sqrt{3}} = 1.6794 \times 10^{-4} $$
+${\theta}$不确定度：$$u({\theta})=\sqrt{{u_a({\theta})}^2+{u_b({\theta})}^2}=\sqrt{ 0.0007995^2 + 0.00016794^2} = 0.0008169 $$
+A的不确定度：
+$$u(A)=\displaystyle\frac{1}{2}u({\theta})=\displaystyle\frac{1}{2}{\times}0.0008169 = 0.0004085 $$
+相对不确定度：$$\displaystyle\frac{u(A)}{A}=6.818{\times}10^{-6}$$
+最终结果为：$$A{\pm}u(A) = 1.0456 {\pm} 0.0004rad$$
+\end{document}
