@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Log;
 use Request;
 use Auth;
 use App\Http\Requests;
@@ -72,8 +72,8 @@ class ReportController extends Controller
         $experimentId = $report->experiment_id;
         $system = exec(Config::get('phylab.scriptPath')."create.sh ".Config::get('phylab.tmpReportPath')." ".Config::get('phylab.scriptPath').$scriptLink." ".Config::get('phylab.tmpXmlPath').$xmlLink." ".Config::get('phylab.tmpReportPath').$tmpName.".tex",$output,$reval);
         #echo Config::get('phylab.scriptPath')."create.sh ".Config::get('phylab.tmpReportPath')." ".Config::get('phylab.scriptPath').$scriptLink." ".Config::get('phylab.tmpXmlPath').$xmlLink." ".Config::get('phylab.tmpReportPath').$tmpName.".tex";
-        #echo $out;
-        #echo $system."\n";
+        #echo $out."\n";
+        log::info("commands: ".Config::get('phylab.scriptPath')."create.sh ".Config::get('phylab.tmpReportPath')." ".Config::get('phylab.scriptPath').$scriptLink." ".Config::get('phylab.tmpXmlPath').$xmlLink." ".Config::get('phylab.tmpReportPath').$tmpName.".tex"."\n");
         #echo $reval."\n";
         #echo var_dump($output);
         if($reval==0){

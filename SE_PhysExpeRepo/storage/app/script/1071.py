@@ -94,7 +94,7 @@ def BitAdapt(x,u_x) :
 
 def ReadXmlTop():
     #打开统一的头文件模版
-    latex_head_file = open('/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Head.tex','r')
+    latex_head_file = open('/opt/lampp/htdocs/Phylab-Web/SE_PhysExpeRepo/storage/app/script/Head.tex','rb')
     latex_head = latex_head_file.read().decode('utf-8', 'ignore')
     latex_tail = "\n\\end{document}"
     latex_body = ""
